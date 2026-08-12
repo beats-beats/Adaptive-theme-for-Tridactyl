@@ -7,5 +7,6 @@ throw the extracted zip file inside
 run :source in tridactyl
 
 # features
-sharp -no rounded corners and no borders and box shadows
-adaptive theme yey
+~ sharp -no rounded corners and no borders and box shadows
+
+~ adaptive theme yey
