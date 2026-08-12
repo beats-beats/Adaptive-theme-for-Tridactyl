@@ -1,0 +1,19 @@
+" Adaptive Page Theme
+" Place adaptive-theme.js next to this tridactylrc.
+" Place theme.css inside a themes folder next to this tridactylrc.
+
+colours adaptive
+
+command adaptive_theme js -r adaptive-theme.js
+
+" Refresh after navigation, tab switches, and same-document navigation.
+autocmd DocLoad ^.*$ adaptive_theme
+autocmd TabEnter ^.*$ adaptive_theme
+autocmd HistoryState ^.*$ adaptive_theme
+
+" The command-line iframe may be created lazily; refresh when it opens.
+autocmd ModeEnter ^ex$ adaptive_theme
+
+" Apply immediately when this file is sourced.
+adaptive_theme
+

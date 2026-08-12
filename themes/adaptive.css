@@ -1,0 +1,228 @@
+/*
+ * Minimal adaptive Tridactyl theme
+ *
+ * Two main colours: the adaptive page background and readable foreground.
+ * A single derived shade is reserved for selection/search highlighting.
+ * The command line uses Quake's fixed top-of-page placement.
+ */
+
+:root {
+  color-scheme: light;
+
+  /* Safe fallbacks until adaptive-theme.js samples the current page. */
+  --tridactyl-adaptive-surface: rgb(255 255 255);
+  --tridactyl-adaptive-raised: rgb(255 255 255);
+  --tridactyl-adaptive-selected: rgb(225 225 225);
+  --tridactyl-adaptive-fg: rgb(0 0 0);
+
+  --minimal-bg: var(--tridactyl-adaptive-surface);
+  --minimal-fg: var(--tridactyl-adaptive-fg);
+  --minimal-highlight: var(--tridactyl-adaptive-selected);
+
+  /* General */
+  --tridactyl-font-family: "Cascadia Mono", "Segoe UI Mono", ui-monospace, monospace;
+  --tridactyl-font-family-sans: "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
+  --tridactyl-font-size: 13px;
+  --tridactyl-small-font-size: 11px;
+  --tridactyl-bg: var(--minimal-bg);
+  --tridactyl-fg: var(--minimal-fg);
+  --tridactyl-scrollbar-color: var(--minimal-fg) var(--minimal-bg);
+
+  /* Mode indicator */
+  --tridactyl-status-font-family: var(--tridactyl-font-family-sans);
+  --tridactyl-status-font-size: 11px;
+  --tridactyl-status-bg: var(--minimal-bg);
+  --tridactyl-status-fg: var(--minimal-fg);
+  --tridactyl-status-border: none;
+  --tridactyl-status-border-radius: 0;
+  --tridactyl-indicator-border-style: none;
+  --tridactyl-indicator-border-width: 0;
+
+  /* Search */
+  --tridactyl-search-highlight-color: var(--minimal-highlight);
+  --tridactyl-search-highlight-active-color: var(--minimal-highlight);
+  --tridactyl-search-highlight-text-color: var(--minimal-fg);
+
+  /* Hint labels: simple inverted foreground/background. */
+  --tridactyl-hintspan-font-family: var(--tridactyl-font-family-sans);
+  --tridactyl-hintspan-font-size: 11px;
+  --tridactyl-hintspan-font-weight: 700;
+  --tridactyl-hintspan-fg: var(--minimal-bg);
+  --tridactyl-hintspan-pressed-fg: var(--minimal-bg);
+  --tridactyl-hintspan-bg: var(--minimal-fg);
+  --tridactyl-hintspan-border-color: transparent;
+  --tridactyl-hintspan-border-width: 0;
+  --tridactyl-hintspan-border-style: none;
+  --tridactyl-hintspan-js-background: var(--minimal-fg);
+  --tridactyl-hintspan-active-fg: var(--minimal-fg);
+  --tridactyl-hintspan-active-bg: var(--minimal-highlight);
+  --tridactyl-hintspan-active-border-color: transparent;
+
+  /* Hint targets */
+  --tridactyl-hint-fg: var(--minimal-fg);
+  --tridactyl-hint-active-fg: var(--minimal-fg);
+  --tridactyl-hint-bg: transparent;
+  --tridactyl-hint-active-bg: var(--minimal-highlight);
+  --tridactyl-hint-outline: none;
+  --tridactyl-hint-active-outline: none;
+  --tridactyl-hint-highlight-fg: var(--minimal-fg);
+  --tridactyl-hint-highlight-active-fg: var(--minimal-fg);
+  --tridactyl-hint-highlight-bg: transparent;
+  --tridactyl-hint-highlight-active-bg: var(--minimal-highlight);
+  --tridactyl-hint-highlight-outline: none;
+  --tridactyl-hint-highlight-active-outline: none;
+  --tridactyl-hint-highlight-opacity: 0.25;
+
+  /* Command line */
+  --tridactyl-cmdl-bg: var(--minimal-bg);
+  --tridactyl-cmdl-fg: var(--minimal-fg);
+  --tridactyl-cmdl-line-height: 1.5;
+  --tridactyl-cmdl-font-family: var(--tridactyl-font-family);
+  --tridactyl-cmdl-font-size: 13px;
+
+  /* Completions */
+  --tridactyl-cmplt-option-height: 1.75em;
+  --tridactyl-cmplt-fg: var(--minimal-fg);
+  --tridactyl-cmplt-bg: var(--minimal-bg);
+  --tridactyl-cmplt-font-size: 12px;
+  --tridactyl-cmplt-font-family: var(--tridactyl-font-family-sans);
+  --tridactyl-cmplt-border-top: none;
+
+  /* Section headers remain available to Tridactyl but are hidden below. */
+  --tridactyl-header-first-bg: var(--minimal-bg);
+  --tridactyl-header-second-bg: var(--minimal-bg);
+  --tridactyl-header-third-bg: var(--minimal-bg);
+  --tridactyl-header-font-size: 11px;
+  --tridactyl-header-font-weight: 600;
+  --tridactyl-header-border-bottom: none;
+
+  /* URLs use normal text colour. */
+  --tridactyl-url-text-decoration: none;
+  --tridactyl-url-fg: var(--minimal-fg);
+  --tridactyl-url-bg: transparent;
+  --tridactyl-url-cursor: pointer;
+  --tridactyl-of-fg: var(--minimal-fg);
+  --tridactyl-of-bg: var(--minimal-highlight);
+
+  /* Tridactyl-owned pages */
+  --tridactyl-highlight-box-bg: var(--minimal-highlight);
+  --tridactyl-highlight-box-fg: var(--minimal-fg);
+  --tridactyl-vs-bg: var(--minimal-bg);
+  --tridactyl-vs-fg: var(--minimal-fg);
+  --tridactyl-vs-font-family: var(--tridactyl-font-family);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --tridactyl-adaptive-surface: rgb(43 42 51);
+    --tridactyl-adaptive-raised: rgb(43 42 51);
+    --tridactyl-adaptive-selected: rgb(75 74 82);
+    --tridactyl-adaptive-fg: rgb(255 255 255);
+  }
+}
+
+/* Quake-style placement: the whole Tridactyl command UI opens at the top. */
+:root #cmdline_iframe {
+  position: fixed !important;
+  inset: 0 0 auto 0 !important;
+  width: 100% !important;
+  border: 0 !important;
+  outline: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  opacity: 1 !important;
+  color-scheme: inherit !important;
+}
+
+/* Remove decorative geometry from every Tridactyl-owned control. */
+:root.TridactylOwnNamespace *,
+:root.TridactylCommandline * {
+  border-style: none !important;
+  border-width: 0 !important;
+  border-radius: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+:root.TridactylOwnNamespace,
+:root.TridactylOwnNamespace body,
+:root.TridactylCommandline body,
+:root.TridactylCommandline #command-line-holder,
+:root.TridactylCommandline #completions {
+  color: var(--minimal-fg) !important;
+  background: var(--minimal-bg) !important;
+}
+
+:root.TridactylCommandline #command-line-holder {
+  min-height: 2.35em;
+}
+
+:root.TridactylCommandline #tridactyl-input {
+  color: var(--minimal-fg) !important;
+  background: var(--minimal-bg) !important;
+  caret-color: var(--minimal-fg) !important;
+}
+
+:root.TridactylCommandline #tridactyl-colon,
+:root.TridactylCommandline a,
+:root.TridactylCommandline .url,
+:root.TridactylOwnNamespace a {
+  color: var(--minimal-fg) !important;
+  background: transparent !important;
+  text-decoration: none !important;
+}
+
+/* Quake hides completion group headings for a cleaner list. */
+:root.TridactylCommandline #completions .sectionHeader {
+  display: none !important;
+}
+
+:root.TridactylCommandline #completions .option.focused,
+:root.TridactylCommandline #completions tr.focused,
+:root.TridactylCommandline #completions .option.focused .url,
+:root.TridactylCommandline #completions tr.focused .url {
+  color: var(--minimal-fg) !important;
+  background: var(--minimal-highlight) !important;
+  text-decoration: none !important;
+}
+
+:root.TridactylCommandline #completions .documentation,
+:root.TridactylCommandline #completions .doc {
+  color: var(--minimal-fg) !important;
+  opacity: 0.7;
+}
+
+span.TridactylHint {
+  color: var(--minimal-bg) !important;
+  background: var(--minimal-fg) !important;
+  border: 0 !important;
+  outline: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 1px 4px !important;
+}
+
+span.TridactylHint.TridactylHintSpanActive {
+  color: var(--minimal-fg) !important;
+  background: var(--minimal-highlight) !important;
+  transform: none !important;
+}
+
+span.TridactylStatusIndicator {
+  color: var(--minimal-fg) !important;
+  background: var(--minimal-bg) !important;
+  border: 0 !important;
+  outline: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+/* No animation or colour flourish: changes are immediate. */
+:root.TridactylCommandline *,
+span.TridactylStatusIndicator,
+span.TridactylHint {
+  transition: none !important;
+}
