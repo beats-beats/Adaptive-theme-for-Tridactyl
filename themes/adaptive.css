@@ -7,8 +7,6 @@
  */
 
 :root {
-  color-scheme: light;
-
   /* Safe fallbacks until adaptive-theme.js samples the current page. */
   --tridactyl-adaptive-surface: rgb(255 255 255);
   --tridactyl-adaptive-raised: rgb(255 255 255);
@@ -114,7 +112,6 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    color-scheme: dark;
     --tridactyl-adaptive-surface: rgb(43 42 51);
     --tridactyl-adaptive-raised: rgb(43 42 51);
     --tridactyl-adaptive-selected: rgb(75 74 82);
