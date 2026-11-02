@@ -13,18 +13,22 @@
 (() => {
   "use strict";
 
-  const GLOBAL_KEY = "__tridactylAdaptivePageThemeV2";
+const GLOBAL_KEY = "__tridactylAdaptivePageThemeV3";
 
-  /* Remove the previous sampler when this version is sourced on an open page. */
-  for (const key of ["__tridactylAdaptivePageThemeV1", GLOBAL_KEY]) {
-    const instance = window[key];
-    if (key === GLOBAL_KEY && instance?.version === 2) {
-      instance.refresh();
-      return;
-    }
-    if (instance && typeof instance.destroy === "function") instance.destroy();
-    delete window[key];
+/* Remove the previous sampler when this version is sourced on an open page. */
+for (const key of [
+  "__tridactylAdaptivePageThemeV1",
+  "__tridactylAdaptivePageThemeV2",
+  GLOBAL_KEY,
+]) {
+  const instance = window[key];
+  if (key === GLOBAL_KEY && instance?.version === 3) {
+    instance.refresh();
+    return;
   }
+  if (instance && typeof instance.destroy === "function") instance.destroy();
+  delete window[key];
+}
 
   const BLACK = { r: 0, g: 0, b: 0, a: 1 };
   const WHITE = { r: 255, g: 255, b: 255, a: 1 };
@@ -256,48 +260,62 @@
     };
   };
 
-  const setVariables = (root, variables) => {
-    if (!root || root.nodeType !== 1 || !root.style) return false;
-    for (const [name, value] of Object.entries(variables)) {
-      root.style.setProperty(name, value);
-    }
+const setVariables = (root, variables, { applyColorScheme = false } = {}) => {
+  if (!root || root.nodeType !== 1 || !root.style) return false;
+  for (const [name, value] of Object.entries(variables)) {
+    root.style.setProperty(name, value);
+  }
+  if (applyColorScheme) {
     root.style.setProperty(
       "color-scheme",
       variables["--tridactyl-adaptive-color-scheme"],
     );
-    root.dataset.tridactylAdaptiveTheme = "atbc-v2";
-    return true;
-  };
+  } else if (root.dataset.tridactylAdaptiveTheme === "atbc-v2") {
+    /* One-time cleanup of what the previous version set on the page. */
+    root.style.removeProperty("color-scheme");
+  }
+  root.dataset.tridactylAdaptiveTheme = "atbc-v3";
+  return true;
+};
 
   const retryTimers = new Set();
   let lastVariables = null;
   let refreshTimer = 0;
   let lastRefreshAt = 0;
 
-  const applyToCommandLine = (variables) => {
-    try {
-      const frame = document.getElementById("cmdline_iframe");
-      return setVariables(frame?.contentWindow?.document?.documentElement, variables);
-    } catch (_) {
-      return false;
+ const applyToCommandLine = (variables) => {
+  try {
+    const frame = document.getElementById("cmdline_iframe");
+    if (frame) {
+      frame.style.setProperty(
+        "color-scheme",
+        variables["--tridactyl-adaptive-color-scheme"],
+        "important",
+      );
     }
-  };
+    return setVariables(frame?.contentWindow?.document?.documentElement, variables, {
+      applyColorScheme: true,
+    });
+  } catch (_) {
+    return false;
+  }
+};
 
-  const applyEverywhere = (variables) => {
-    for (const timer of retryTimers) clearTimeout(timer);
-    retryTimers.clear();
+const applyEverywhere = (variables) => {
+  for (const timer of retryTimers) clearTimeout(timer);
+  retryTimers.clear();
 
-    setVariables(document.documentElement, variables);
-    applyToCommandLine(variables);
+  setVariables(document.documentElement, variables, { applyColorScheme: false });
+  applyToCommandLine(variables);
 
-    for (const delay of [30, 100, 300, 800]) {
-      const timer = setTimeout(() => {
-        retryTimers.delete(timer);
-        applyToCommandLine(variables);
-      }, delay);
-      retryTimers.add(timer);
-    }
-  };
+  for (const delay of [30, 100, 300, 800]) {
+    const timer = setTimeout(() => {
+      retryTimers.delete(timer);
+      applyToCommandLine(variables);
+    }, delay);
+    retryTimers.add(timer);
+  }
+};
 
   const refresh = () => {
     if (!document.documentElement) return;
@@ -374,7 +392,7 @@
   };
 
   window[GLOBAL_KEY] = {
-    version: 2,
+    version: 3,
     refresh,
     destroy,
     get variables() {
